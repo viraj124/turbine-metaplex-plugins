@@ -1,0 +1,31 @@
+[package]
+name = "core_staking"
+version = "0.1.0"
+description = "Metaplex Core NFT staking, reward minting, and collection transfer oracle"
+edition.workspace = true
+rust-version.workspace = true
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "core_staking"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+anchor-debug = []
+custom-heap = []
+custom-panic = []
+
+
+[dependencies]
+anchor-lang = { version = "=1.2.0", features = ["init-if-needed"] }
+anchor-spl = { version = "=1.2.0", default-features = false, features = ["token", "token_2022", "token_2022_extensions", "associated_token"] }
+# Default features only: they build on the same Solana 3 crates as
+# anchor-lang 1.x. The `anchor` feature pulls in anchor-lang 0.31 instead.
+mpl-core = "=0.12.1"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(target_os, values("solana"))'] }
